@@ -11,7 +11,7 @@ const Cell = (props:any) => {
           return (
             <button
               className={`cell`}
-              onClick={() => console.log(props)}>
+              onClick={props.onClick}>
             </button>
           )
         // }}

@@ -1,6 +1,6 @@
 import { WINNING_COMBINATIONS_3X3 } from './constants';
 
-export function calculateWinner(squares:any) {
+export function calcWinner(squares:any) {
   console.log(squares);
   // сравниваем комбинации из активированных клеток с выигрышными комбинациями
   for (let i = 0; i < WINNING_COMBINATIONS_3X3.length; i++) {

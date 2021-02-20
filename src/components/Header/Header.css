@@ -1,0 +1,7 @@
+.settings{
+    display: flex;
+    justify-content: center;
+}
+.form{
+    padding: 1px solid black;
+}

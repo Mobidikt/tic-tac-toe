@@ -1,18 +1,66 @@
 import React, { Component } from 'react';
+import { Form } from 'react-bootstrap';
 import { AppContext } from '../../AppProvider';
-import { GAME_TYPES, PLAYER_TURNS, ICON_CHARS } from '../../common';
+import {
+  GAME_TYPES,
+  PLAYER_TURNS,
+  ICON_CHARS,
+  ICON_PLAYER_ONE,
+  ICON_PLAYER_TWO,
+} from '../../common';
 import './Main.css';
 
 const ICON_PLACE_HOLDDER = 'I';
+
+const GameType = (props) => {
+  const { value, name } = props;
+
+  return (
+    <AppContext.Consumer>
+      {(context) => (
+        <li
+          onClick={() => context.changeType(value)}
+          className={value === context.gameType ? 'active' : ''}
+        >
+          {name}
+        </li>
+      )}
+    </AppContext.Consumer>
+  );
+};
+
+class Menu extends Component {
+  render() {
+    return (
+      <header className='header'>
+        <h1>Tic Tac Toe</h1>
+        <ul>
+          <GameType value={GAME_TYPES.TWO_PLAYERS} name='2 Players' />
+          <GameType value={GAME_TYPES.VERSUS_COMPUTER} name='Versus Computer' />
+        </ul>
+        <div>
+          <button onClick={() => this.context.newGame()}>New Game</button>
+        </div>
+      </header>
+    );
+  }
+}
+
+Menu.contextType = AppContext;
 
 const Cell = (props) => {
   return (
     <AppContext.Consumer>
       {(context) => {
+        console.log(context.playerIconOne);
         const value = context.cells[props.index];
-        const icon = value !== null ? ICON_CHARS[value] : ICON_PLACE_HOLDDER;
+        const icon =
+          value !== null
+            ? value === 1
+              ? context.playerIconOne
+              : context.playerIconTwo
+            : ICON_PLACE_HOLDDER;
         const isDoneClass = icon !== ICON_PLACE_HOLDDER ? 'done' : '';
-
         return (
           <button
             className={`cell cell-${props.index} ${isDoneClass}`}
@@ -39,7 +87,6 @@ class Board extends Component {
       }, 50);
     } else {
       this.boardRef.current.classList.remove('full');
-      console.log(this.boardRef);
     }
   }
   render() {
@@ -78,9 +125,8 @@ class Main extends Component {
       textInfo = 'Tie!';
     } else {
       if (this.context.gameType === GAME_TYPES.TWO_PLAYERS) {
-        console.log('player');
         if (this.context.gameState.position === '') {
-          textInfo = `It's player(${ICON_CHARS[currentIconType]}) turn`;
+          textInfo = `It's player${currentIconType === 0 ? ' 1' : ' 2'} turn`;
         } else {
           textInfo = `Player(${ICON_CHARS[1 - currentIconType]}) wins!`;
         }
@@ -99,6 +145,35 @@ class Main extends Component {
 
     return (
       <main className='main'>
+        <Menu />
+        <div className='settings'>
+          <Form>
+            <Form.Group controlId='exampleForm.SelectCustom'>
+              <Form.Label>Player 1</Form.Label>
+              <Form.Control
+                as='select'
+                custom
+                onClick={(e) => (this.context.playerIconOne = e.target.value)}
+              >
+                <option>Х</option>
+                <option>+</option>
+              </Form.Control>
+            </Form.Group>
+          </Form>
+          <Form>
+            <Form.Group controlId='exampleForm.SelectCustom'>
+              <Form.Label>Player 2</Form.Label>
+              <Form.Control
+                as='select'
+                custom
+                onClick={(e) => (this.context.playerIconTwo = e.target.value)}
+              >
+                <option>О</option>
+                <option>/\</option>
+              </Form.Control>
+            </Form.Group>
+          </Form>
+        </div>
         <div className='info'>{textInfo}</div>
         <Board />
       </main>

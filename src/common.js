@@ -11,6 +11,8 @@ export const ICON_TYPES = {
 };
 
 export const ICON_CHARS = ['Н', 'X'];
+export const ICON_PLAYER_ONE = ['X', '+'];
+export const ICON_PLAYER_TWO = ['O', '*'];
 
 export const PLAYER_TURNS = {
   HUMAN: 0,
@@ -43,7 +45,6 @@ export const checkGameState = (cells) => {
       if (i >= 0 && i <= 2) position = `h h${i}`;
       else if (i >= 3 && i <= 5) position = `v v${i - 3}`;
       else position = `d${i - 6}`;
-
       return {
         position,
         iconType: cells[a],
@@ -74,124 +75,124 @@ export const replace = (cells, index, value) => {
 /**
  * Random move
  */
-// export const findRandomMove = (cells) => {
-//   const emptyCells = getEmptyCells(cells);
+export const findRandomMove = (cells) => {
+  const emptyCells = getEmptyCells(cells);
 
-//   if (emptyCells.length > 0) {
-//     const randomNum = getRandom(0, emptyCells.length);
-//     const index = emptyCells[randomNum][1];
+  if (emptyCells.length > 0) {
+    const randomNum = getRandom(0, emptyCells.length);
+    const index = emptyCells[randomNum][1];
 
-//     return index;
-//   }
+    return index;
+  }
 
-//   return null;
-// };
+  return null;
+};
 
 /**
  * Find best move based on Minimax algorithm
  */
-// const evaluate = (cells, computerType) => {
-//   const lines = [
-//     [0, 1, 2], // h.h0
-//     [3, 4, 5], // h.h1
-//     [6, 7, 8], // h.h2
-//     [0, 3, 6], // v.v0
-//     [1, 4, 7], // v.v1
-//     [2, 5, 8], // v.v2
-//     [0, 4, 8], // d.d0
-//     [2, 4, 6], // d.d1
-//   ];
+const evaluate = (cells, computerType) => {
+  const lines = [
+    [0, 1, 2], // h.h0
+    [3, 4, 5], // h.h1
+    [6, 7, 8], // h.h2
+    [0, 3, 6], // v.v0
+    [1, 4, 7], // v.v1
+    [2, 5, 8], // v.v2
+    [0, 4, 8], // d.d0
+    [2, 4, 6], // d.d1
+  ];
 
-//   for (let i = 0; i < lines.length; i++) {
-//     const [a, b, c] = lines[i];
+  for (let i = 0; i < lines.length; i++) {
+    const [a, b, c] = lines[i];
 
-//     if (cells[a] !== null && cells[a] === cells[b] && cells[a] === cells[c]) {
-//       if (cells[a] === computerType) return 10;
-//       return -10;
-//     }
-//   }
+    if (cells[a] !== null && cells[a] === cells[b] && cells[a] === cells[c]) {
+      if (cells[a] === computerType) return 10;
+      return -10;
+    }
+  }
 
-//   return 0;
-// };
+  return 0;
+};
 
-// const minimax = (cells, depth, computerType, isMax) => {
-//   const score = evaluate(cells, computerType);
+const minimax = (cells, depth, computerType, isMax) => {
+  const score = evaluate(cells, computerType);
 
-//   // If Maximizer has won the game return his/her evaluated score
-//   if (score === 10) return score - depth;
+  // If Maximizer has won the game return his/her evaluated score
+  if (score === 10) return score - depth;
 
-//   // If Minimizer has won the game return his/her evaluated score
-//   if (score === -10) return score + depth;
+  // If Minimizer has won the game return his/her evaluated score
+  if (score === -10) return score + depth;
 
-//   // If there are no more moves and no winner then it is a tie
-//   if (!isMoveLeft(cells)) return 0;
+  // If there are no more moves and no winner then it is a tie
+  if (!isMoveLeft(cells)) return 0;
 
-//   const lengthCells = cells.length;
-//   let best;
+  const lengthCells = cells.length;
+  let best;
 
-//   // If this maximizer's move
-//   if (isMax) {
-//     best = -1000;
+  // If this maximizer's move
+  if (isMax) {
+    best = -1000;
 
-//     for (let i = 0; i < lengthCells; i++) {
-//       const cell = cells[i];
+    for (let i = 0; i < lengthCells; i++) {
+      const cell = cells[i];
 
-//       if (cell === null) {
-//         // Make a move
-//         const nextCells = replace(cells, i, computerType);
+      if (cell === null) {
+        // Make a move
+        const nextCells = replace(cells, i, computerType);
 
-//         // Call minimax recursively and choose the maximum value
-//         best = Math.max(
-//           best,
-//           minimax(nextCells, depth + 1, computerType, !isMax),
-//         );
-//       }
-//     }
-//   } else {
-//     best = 1000;
+        // Call minimax recursively and choose the maximum value
+        best = Math.max(
+          best,
+          minimax(nextCells, depth + 1, computerType, !isMax),
+        );
+      }
+    }
+  } else {
+    best = 1000;
 
-//     for (let i = 0; i < lengthCells; i++) {
-//       const cell = cells[i];
+    for (let i = 0; i < lengthCells; i++) {
+      const cell = cells[i];
 
-//       if (cell === null) {
-//         // Make a move
-//         const nextCells = replace(cells, i, 1 - computerType);
+      if (cell === null) {
+        // Make a move
+        const nextCells = replace(cells, i, 1 - computerType);
 
-//         // Call minimax recursively and choose the minimum value
-//         best = Math.min(
-//           best,
-//           minimax(nextCells, depth + 1, computerType, !isMax),
-//         );
-//       }
-//     }
-//   }
+        // Call minimax recursively and choose the minimum value
+        best = Math.min(
+          best,
+          minimax(nextCells, depth + 1, computerType, !isMax),
+        );
+      }
+    }
+  }
 
-//   return best;
-// };
+  return best;
+};
 
-// export const findBestMove = (cells, computerType) => {
-//   let bestVal = -1000;
-//   let bestMove = null;
+export const findBestMove = (cells, computerType) => {
+  let bestVal = -1000;
+  let bestMove = null;
 
-//   const lengthCells = cells.length;
+  const lengthCells = cells.length;
 
-//   for (let i = 0; i < lengthCells; i++) {
-//     const cell = cells[i];
+  for (let i = 0; i < lengthCells; i++) {
+    const cell = cells[i];
 
-//     if (cell === null) {
-//       // Make a move
-//       const nextCells = replace(cells, i, computerType);
+    if (cell === null) {
+      // Make a move
+      const nextCells = replace(cells, i, computerType);
 
-//       // Compute evaluation function for this move.
-//       const moveVal = minimax(nextCells, 0, computerType, false);
+      // Compute evaluation function for this move.
+      const moveVal = minimax(nextCells, 0, computerType, false);
 
-//       // If the value of the current move is more than the best value, then update best
-//       if (moveVal > bestVal) {
-//         bestVal = moveVal;
-//         bestMove = i;
-//       }
-//     }
-//   }
+      // If the value of the current move is more than the best value, then update best
+      if (moveVal > bestVal) {
+        bestVal = moveVal;
+        bestMove = i;
+      }
+    }
+  }
 
-//   return bestMove;
-// };
+  return bestMove;
+};

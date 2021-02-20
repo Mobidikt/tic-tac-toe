@@ -10,9 +10,9 @@ export const ICON_TYPES = {
   X: 1,
 };
 
-export const ICON_CHARS = ['Н', 'X'];
-export const ICON_PLAYER_ONE = ['X', '+'];
-export const ICON_PLAYER_TWO = ['O', '*'];
+// export const ICON_CHARS = ['Н', 'X'];
+// export const ICON_PLAYER_ONE = ['X', '+'];
+// export const ICON_PLAYER_TWO = ['O', '*'];
 
 export const PLAYER_TURNS = {
   HUMAN: 0,

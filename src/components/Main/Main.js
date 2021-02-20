@@ -4,9 +4,6 @@ import { AppContext } from '../../AppProvider';
 import {
   GAME_TYPES,
   PLAYER_TURNS,
-  ICON_CHARS,
-  ICON_PLAYER_ONE,
-  ICON_PLAYER_TWO,
 } from '../../common';
 import './Main.css';
 
@@ -33,7 +30,6 @@ class Menu extends Component {
   render() {
     return (
       <header className='header'>
-        <h1>Tic Tac Toe</h1>
         <ul>
           <GameType value={GAME_TYPES.TWO_PLAYERS} name='2 Players' />
           <GameType value={GAME_TYPES.VERSUS_COMPUTER} name='Versus Computer' />
@@ -128,7 +124,7 @@ class Main extends Component {
         if (this.context.gameState.position === '') {
           textInfo = `It's player${currentIconType === 0 ? ' 1' : ' 2'} turn`;
         } else {
-          textInfo = `Player(${ICON_CHARS[1 - currentIconType]}) wins!`;
+          textInfo = `Player${currentIconType === 0 ? ' 1' : ' 2'} wins!`;
         }
       } else {
         if (this.context.gameState.position === '') {
@@ -174,6 +170,22 @@ class Main extends Component {
             </Form.Group>
           </Form>
         </div>
+        <Form>
+          <Form.Group controlId='exampleForm.SelectCustom'>
+            <Form.Label>Цветовая схема поля</Form.Label>
+            <Form.Control
+              as='select'
+              custom
+              onClick={(e) =>
+                (this.context.colorBoard =
+                  e.target.value === 'chess' ? true : false)
+              }
+            >
+              <option>classic</option>
+              <option>chess</option>
+            </Form.Control>
+          </Form.Group>
+        </Form>
         <div className='info'>{textInfo}</div>
         <Board />
       </main>

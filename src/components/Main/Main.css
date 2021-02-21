@@ -123,21 +123,25 @@
 }
 
 .main>.board>.board-row>.cell {
+  color: white;
+  background-color: white;
   flex: 1;
   padding-top: calc(100% / 6 - 2.9rem);
   padding-bottom: calc(100% / 6 - 2.9rem);
   font-size: 5rem;
   line-height: 5.7rem;
-  background-color: transparent;
   border: none;
   outline: none;
-  border: 2px solid #fff;
+  border: 2px solid black;
   margin-left: -2px;
   margin-top: -2px;
 }
-
+.main>.board>.board-row>.cell.black-background{
+  background-color: gray;
+  color: gray;
+}
 .main>.board>.board-row>.cell.done {
-  color: #fff;
+  color: black;
 }
 
 .main>.board.full>.board-row>.cell {
@@ -146,8 +150,7 @@
 
 .main>.board:not(.full)>.board-row>.cell:not(.done):hover {
   cursor: pointer;
-  background-color: #111;
-  color: #111;
+  opacity: 0.3;
 }
 
 .main>.board>.board-row>.cell.cell-0,

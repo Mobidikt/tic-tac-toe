@@ -20,6 +20,7 @@ export default class AppProvider extends Component {
     currentIcon: getRandom(0, 2),
     playerIconOne: 'X',
     playerIconTwo: 'O',
+    colorBoard: false,
     textPopup: '',
     openPopup: false,
     cells: new Array(9).fill(null),
@@ -36,6 +37,7 @@ export default class AppProvider extends Component {
     playerTurn: this.initState.playerTurn,
     playerIconOne: 'X',
     playerIconTwo: 'O',
+    colorBoard: this.initState.colorBoard,
     textPopup: '',
     openPopup: false,
     cells: this.initState.cells,
@@ -54,6 +56,7 @@ export default class AppProvider extends Component {
     },
   };
   initGame = () => {
+    console.log(this.initState.colorBoard, 'initgame');
     if (
       this.state.gameType === GAME_TYPES.VERSUS_COMPUTER &&
       this.state.playerTurn === PLAYER_TURNS.COMPUTER
@@ -78,6 +81,7 @@ export default class AppProvider extends Component {
           playerTurn: getRandom(0, 2),
           playerIconOne: 'X',
           playerIconTwo: 'O',
+          colorBoard: this.state.colorBoard,
           textPopup: '',
           openPopup: false,
           cells: this.initState.cells,

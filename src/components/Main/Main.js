@@ -56,9 +56,19 @@ const Cell = (props) => {
               : context.playerIconTwo
             : ICON_PLACE_HOLDDER;
         const isDoneClass = icon !== ICON_PLACE_HOLDDER ? 'done' : '';
+        const chess =
+          context.colorBoard &&
+          (props.index === 0) |
+            (props.index === 2) |
+            (props.index === 4) |
+            (props.index === 6) |
+            (props.index === 8)
+            ? 'black-background'
+            : null;
+        console.log(context.colorBoard);
         return (
           <button
-            className={`cell cell-${props.index} ${isDoneClass}`}
+            className={`cell cell-${props.index} ${isDoneClass} ${chess}`}
             onClick={() => context.humanPlay(props.index)}
           >
             {icon}
@@ -113,8 +123,14 @@ Board.contextType = AppContext;
 
 class Main extends Component {
   render() {
+    const startBoard = this.context.colorBoard;
     let textInfo = '';
+    let message = '';
     const currentIconType = this.context.currentIcon;
+
+    if (startBoard !== this.context.colorBoard) {
+      message = 'изменения вступят только после начала новой игры';
+    } else message = '';
 
     if (this.context.gameState.isTie) {
       textInfo = 'Tie!';
@@ -171,14 +187,16 @@ class Main extends Component {
         </div>
         <Form>
           <Form.Group controlId='exampleForm.SelectCustom'>
-            <Form.Label>Цветовая схема поля</Form.Label>
+            <Form.Label>
+              Измение цветовой схемы поля происходит только с началом новой игры
+            </Form.Label>
             <Form.Control
               as='select'
               custom
-              onClick={(e) =>
-                (this.context.colorBoard =
-                  e.target.value === 'chess' ? true : false)
-              }
+              onClick={(e) => {
+                this.context.colorBoard =
+                  e.target.value === 'chess' ? true : false;
+              }}
             >
               <option>classic</option>
               <option>chess</option>

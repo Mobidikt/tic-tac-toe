@@ -1,5 +1,17 @@
+.sound {
+    padding: 5px ;
+    max-width: 200px;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+.sound__title{
+    color: white;
+    padding: 0;
+    font-size: 20px;
+    margin: 0 0 10px;
+}
 .sound__play{
-    min-width: 150px;
+    min-width: 100px;
 }
 .sound__button{
     min-height: 48px;

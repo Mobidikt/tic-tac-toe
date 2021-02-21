@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
+import soundOff from '../../Images/volume-mute.svg';
 import './Music.css';
 
 class Music extends Component {
@@ -37,7 +38,8 @@ class Music extends Component {
 
   render() {
     return (
-      <div>
+      <div className='sound'>
+        <p className='sound__title'>Sound</p>
         <Button
           variant='primary'
           className='sound__button sound__play'
@@ -45,7 +47,8 @@ class Music extends Component {
           active
           onClick={this.togglePlay}
         >
-          Sound {this.state.play ? 'Pause' : 'Play'}
+          {this.state.play ? 'Pause' : 'Play'}
+          {this.state.volume < 0.2 ? soundOff : null}
         </Button>{' '}
         <Button
           variant='primary'

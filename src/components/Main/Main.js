@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import { Form } from 'react-bootstrap';
 import { AppContext } from '../../AppProvider';
-import {
-  GAME_TYPES,
-  PLAYER_TURNS,
-} from '../../common';
+import { GAME_TYPES, PLAYER_TURNS } from '../../common';
 import './Main.css';
 
 const ICON_PLACE_HOLDDER = 'I';
@@ -32,7 +29,10 @@ class Menu extends Component {
       <header className='header'>
         <ul>
           <GameType value={GAME_TYPES.TWO_PLAYERS} name='2 Players' />
-          <GameType value={GAME_TYPES.VERSUS_COMPUTER} name='Versus Computer' />
+          <GameType
+            value={GAME_TYPES.VERSUS_COMPUTER}
+            name='Play with computer'
+          />
         </ul>
         <div>
           <button onClick={() => this.context.newGame()}>New Game</button>

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Form } from 'react-bootstrap';
+import { Button, Form, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import { AppContext } from '../../AppProvider';
 import { GAME_TYPES, PLAYER_TURNS } from '../../common';
+import Music from '../Music/Music';
 import './Main.css';
 
 const ICON_PLACE_HOLDDER = 'I';
@@ -12,12 +13,12 @@ const GameType = (props) => {
   return (
     <AppContext.Consumer>
       {(context) => (
-        <li
+        <p
           onClick={() => context.changeType(value)}
           className={value === context.gameType ? 'active' : ''}
         >
           {name}
-        </li>
+        </p>
       )}
     </AppContext.Consumer>
   );
@@ -25,19 +26,45 @@ const GameType = (props) => {
 
 class Menu extends Component {
   render() {
+    const computer = localStorage.getItem('Computer');
+    const playerVSComputer = +localStorage.getItem('PlayerVSComputer');
+    const playerOne = +localStorage.getItem('Player1');
+    const playerTwo = +localStorage.getItem('Player2');
+    const tie = +localStorage.getItem('Tie');
     return (
-      <header className='header'>
-        <ul>
-          <GameType value={GAME_TYPES.TWO_PLAYERS} name='2 Players' />
-          <GameType
-            value={GAME_TYPES.VERSUS_COMPUTER}
-            name='Play with computer'
-          />
-        </ul>
+      <div className='game-info'>
         <div>
-          <button onClick={() => this.context.newGame()}>New Game</button>
+          <h2>Statistics</h2>
+          <div>
+            <p>Tie : {tie}</p>
+            <h4>Wins (2 player)</h4>
+            <p>Player 1 : {playerOne}</p>
+            <p>Player 2 : {playerTwo}</p>
+            <h4>Wins (play with computer)</h4>
+            <p>Computer : {computer}</p>
+            <p>Player : {playerVSComputer}</p>
+          </div>
         </div>
-      </header>
+        <div className='game-menu'>
+          <h2>Game menu</h2>
+          <ToggleButtonGroup type='radio' name='options' defaultValue={1}>
+            <ToggleButton value={1} className='btn_radio'>
+              <GameType value={GAME_TYPES.TWO_PLAYERS} name='2 Players' />
+            </ToggleButton>
+            <ToggleButton value={2} className='btn_radio'>
+              <GameType
+                value={GAME_TYPES.VERSUS_COMPUTER}
+                name='Play with computer'
+              />
+            </ToggleButton>
+          </ToggleButtonGroup>
+          <div>
+            <Button variant='warning' onClick={() => this.context.newGame()}>
+              New Game
+            </Button>{' '}
+          </div>
+        </div>
+      </div>
     );
   }
 }
@@ -56,7 +83,6 @@ const Cell = (props) => {
               : context.playerIconTwo
             : ICON_PLACE_HOLDDER;
         const isDoneClass = icon !== ICON_PLACE_HOLDDER ? 'done' : '';
-        console.log(context.playerColorTwo);
         const isColorClass =
           value !== null
             ? value === 1
@@ -129,6 +155,11 @@ Board.contextType = AppContext;
 
 class Main extends Component {
   render() {
+    const computer = +localStorage.getItem('Computer');
+    const playerVSComputer = +localStorage.getItem('PlayerVSComputer');
+    const playerOne = +localStorage.getItem('Player1');
+    const playerTwo = +localStorage.getItem('Player2');
+    const tie = +localStorage.getItem('Tie');
     const startBoard = this.context.colorBoard;
     let textInfo = '';
     let message = '';
@@ -140,12 +171,16 @@ class Main extends Component {
 
     if (this.context.gameState.isTie) {
       textInfo = 'Tie!';
+      localStorage.setItem('Tie', tie + 1);
     } else {
       if (this.context.gameType === GAME_TYPES.TWO_PLAYERS) {
         if (this.context.gameState.position === '') {
-          textInfo = `It's player${currentIconType === 0 ? ' 1' : ' 2'} turn`;
+          textInfo = `It's player${currentIconType === 0 ? ' 2' : ' 1'} turn`;
         } else {
           textInfo = `Player${currentIconType === 0 ? ' 1' : ' 2'} wins!`;
+          if (currentIconType === 0) {
+            localStorage.setItem(`Player1`, playerOne + 1);
+          } else localStorage.setItem(`Player2`, playerTwo + 1);
         }
       } else {
         if (this.context.gameState.position === '') {
@@ -153,9 +188,13 @@ class Main extends Component {
             textInfo = `It's your turn`;
           else textInfo = `It's computer turn`;
         } else {
-          if (this.context.playerTurn === PLAYER_TURNS.HUMAN)
+          if (this.context.playerTurn === PLAYER_TURNS.HUMAN) {
             textInfo = `Computer win!`;
-          else textInfo = `You win!`;
+            localStorage.setItem('Computer', computer + 1);
+          } else {
+            textInfo = `You win!`;
+            localStorage.setItem('PlayerVSComputer', playerVSComputer + 1);
+          }
         }
       }
     }
@@ -169,10 +208,11 @@ class Main extends Component {
             <div className='setting__player'>
               <p className='setting__title'>Player 1</p>
               <Form>
-                <Form.Group controlId='exampleForm.SelectCustom'>
+                <Form.Group controlId='iconPlayerOne'>
                   <Form.Label>Icon</Form.Label>
                   <Form.Control
                     as='select'
+                    className='form__btn'
                     custom
                     onClick={(e) =>
                       (this.context.playerIconOne = e.target.value)
@@ -184,10 +224,11 @@ class Main extends Component {
                 </Form.Group>
               </Form>
               <Form>
-                <Form.Group controlId='exampleForm.SelectCustom'>
+                <Form.Group controlId='colorIconPlayerOne'>
                   <Form.Label>Color</Form.Label>
                   <Form.Control
                     as='select'
+                    className='form__btn'
                     custom
                     onClick={(e) =>
                       (this.context.playerColorOne = e.target.value)
@@ -203,10 +244,11 @@ class Main extends Component {
             <div className='setting__player'>
               <p className='setting__title'>Player 2 </p>
               <Form>
-                <Form.Group controlId='exampleForm.SelectCustom'>
+                <Form.Group controlId='iconPlayerTwo'>
                   <Form.Label>Icon</Form.Label>
                   <Form.Control
                     as='select'
+                    className='form__btn'
                     custom
                     onClick={(e) =>
                       (this.context.playerIconTwo = e.target.value)
@@ -218,10 +260,11 @@ class Main extends Component {
                 </Form.Group>
               </Form>
               <Form>
-                <Form.Group controlId='exampleForm.SelectCustom'>
+                <Form.Group controlId='colorIconPlayerTwo'>
                   <Form.Label>Color</Form.Label>
                   <Form.Control
                     as='select'
+                    className='form__btn'
                     custom
                     onClick={(e) =>
                       (this.context.playerColorTwo = e.target.value)
@@ -234,25 +277,29 @@ class Main extends Component {
                 </Form.Group>
               </Form>
             </div>
-            <div className='setting__board'>
-              <p className='setting__title'>
-                Color board (необходимо начать новую игру)
-              </p>
-              <Form>
-                <Form.Group controlId='exampleForm.SelectCustom'>
-                  <Form.Control
-                    as='select'
-                    custom
-                    onClick={(e) => {
-                      this.context.colorBoard =
-                        e.target.value === 'chess' ? true : false;
-                    }}
-                  >
-                    <option>classic</option>
-                    <option>chess</option>
-                  </Form.Control>
-                </Form.Group>
-              </Form>
+            <div>
+              <div className='setting__board'>
+                <p className='setting__title'>
+                  Color board (необходимо начать новую игру)
+                </p>
+                <Form>
+                  <Form.Group controlId='exampleForm.SelectCustom'>
+                    <Form.Control
+                      as='select'
+                      className='form__btn'
+                      custom
+                      onClick={(e) => {
+                        this.context.colorBoard =
+                          e.target.value === 'chess' ? true : false;
+                      }}
+                    >
+                      <option>classic</option>
+                      <option>chess</option>
+                    </Form.Control>
+                  </Form.Group>
+                </Form>
+              </div>
+              <Music />
             </div>
           </div>
         </div>

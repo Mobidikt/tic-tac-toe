@@ -60,7 +60,6 @@ export default class AppProvider extends Component {
     },
   };
   initGame = () => {
-    console.log(this.initState.colorBoard, 'initgame');
     if (
       this.state.gameType === GAME_TYPES.VERSUS_COMPUTER &&
       this.state.playerTurn === PLAYER_TURNS.COMPUTER
@@ -83,9 +82,9 @@ export default class AppProvider extends Component {
           gameType: type,
           currentIcon: getRandom(0, 2),
           playerTurn: getRandom(0, 2),
-          playerIconOne: 'X',
+          playerIconOne: this.state.playerIconOne,
           playerColorOne: this.state.playerColorOne,
-          playerIconTwo: 'O',
+          playerIconTwo: this.state.playerIconTwo,
           playerColorTwo: this.state.playerColorTwo,
           colorBoard: this.state.colorBoard,
           textPopup: '',

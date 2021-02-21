@@ -1,5 +1,4 @@
 import React from 'react';
-import Music from '../Music/Music';
 import './Header.css'
 
 function Header() {
@@ -7,7 +6,7 @@ function Header() {
     <header  className='text-center text-lg-left'>
       <div className='text-center p-3' style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
       <h1>Tic-tac-toe</h1>
-      <Music />
+      
       </div>
     </header>
   );

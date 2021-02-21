@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 import soundOff from '../../Images/volume-mute.svg';
+import soundfale from '../../sound/81cebf7e45fdef7.mp3';
 import './Music.css';
 
 class Music extends Component {
@@ -8,11 +9,14 @@ class Music extends Component {
     super(props);
     this.state = {
       play: false,
-      url: 'http://streaming.tdiradio.com:8000/house.mp3',
+      //   url: 'http://streaming.tdiradio.com:8000/house.mp3',
+      url: '../../sound/81cebf7e45fdef7.mp3',
     };
-    this.audio = new Audio(this.state.url);
+    this.audio = new Audio();
+    this.audio.loop = true;
   }
   componentDidMount() {
+    this.audio.src = soundfale;
     this.audio.addEventListener('ended', () => this.setState({ play: false }));
   }
 

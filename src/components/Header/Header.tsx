@@ -3,7 +3,6 @@ import Music from '../Music/Music';
 import './Header.css'
 
 function Header() {
-
   return (
     <header  className='text-center text-lg-left'>
       <div className='text-center p-3' style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
@@ -13,6 +12,4 @@ function Header() {
     </header>
   );
 } 
-
-
 export default Header;

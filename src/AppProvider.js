@@ -20,6 +20,8 @@ export default class AppProvider extends Component {
     currentIcon: getRandom(0, 2),
     playerIconOne: 'X',
     playerIconTwo: 'O',
+    textPopup: '',
+    openPopup: false,
     cells: new Array(9).fill(null),
     gameState: {
       position: '',
@@ -34,6 +36,8 @@ export default class AppProvider extends Component {
     playerTurn: this.initState.playerTurn,
     playerIconOne: 'X',
     playerIconTwo: 'O',
+    textPopup: '',
+    openPopup: false,
     cells: this.initState.cells,
     gameState: this.initState.gameState,
 
@@ -43,7 +47,6 @@ export default class AppProvider extends Component {
       }
     },
     humanPlay: (index) => {
-      console.log(index);
       this.humanPlay(index);
     },
     newGame: () => {
@@ -55,7 +58,6 @@ export default class AppProvider extends Component {
       this.state.gameType === GAME_TYPES.VERSUS_COMPUTER &&
       this.state.playerTurn === PLAYER_TURNS.COMPUTER
     ) {
-      console.log('computer');
       if (this.timeout) {
         clearTimeout(this.timeout);
       }
@@ -65,11 +67,9 @@ export default class AppProvider extends Component {
         this.computerPlay(randomMove);
       }, THINKING_TIME);
     }
-    console.log('initGame');
   };
 
   initNewGame = (type = this.initState.gameType) => {
-    console.log('initGame');
     this.setState(
       () => {
         return {
@@ -78,6 +78,8 @@ export default class AppProvider extends Component {
           playerTurn: getRandom(0, 2),
           playerIconOne: 'X',
           playerIconTwo: 'O',
+          textPopup: '',
+          openPopup: false,
           cells: this.initState.cells,
           gameState: this.initState.gameState,
         };
@@ -103,15 +105,7 @@ export default class AppProvider extends Component {
     };
   };
 
-  iconPlayerOne(e) {
-    console.log(e.target.value, 'иконка вверху');
-  }
-  iconPlayerTwo(e) {
-    console.log(e.target.value, 'иконка');
-  }
-
   humanPlay = (index) => {
-    console.log(index, 'index');
     if (
       this.state.gameState.position === '' &&
       this.state.cells[index] === null &&
@@ -162,6 +156,31 @@ export default class AppProvider extends Component {
   }
 
   render() {
+    const currentIconType = this.state.currentIcon;
+
+    if (this.state.gameState.isTie) {
+      this.state.textPopup = 'Tie!';
+      this.state.openPopup = true;
+    } else {
+      if (this.state.gameType === GAME_TYPES.TWO_PLAYERS) {
+        if (this.state.gameState.position !== '') {
+          this.state.textPopup = `Player${
+            currentIconType === 0 ? ' 1' : ' 2'
+          } wins!`;
+          this.state.openPopup = true;
+        }
+      } else {
+        if (this.state.gameState.position !== '') {
+          if (this.state.playerTurn === PLAYER_TURNS.HUMAN) {
+            this.state.textPopup = `Computer win!`;
+            this.state.openPopup = true;
+          } else {
+            this.state.textPopup = `You win!`;
+            this.state.openPopup = true;
+          }
+        }
+      }
+    }
     return (
       <AppContext.Provider value={this.state}>
         {this.props.children}

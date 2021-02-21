@@ -1,0 +1,86 @@
+.popup__close {
+    height: 40px;
+    width: 40px;
+    border: none;
+    position: absolute;
+    padding: 0;
+    top: -40px;
+    right: -40px;
+    background-image: url(../../Images/close.svg);
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+  }
+  .popup__close:hover {
+    opacity: 0.6;
+  }
+  .popup__close:focus {
+    outline: none;
+  }
+  @media screen and (max-width: 555px) {
+    .popup__close {
+      height: 30px;
+      width: 30px;
+      top: -32px;
+      right: -32px;
+    }
+  }
+  .popup__container {
+    position: relative;
+    width: 430px;
+    height: 330px;
+    border-radius: 10px;
+    background-color: #ffffff;
+  }
+  @media screen and (max-width: 555px) {
+    .popup__container {
+      width: 240px;
+      height: 258px;
+    }
+  }
+  .popup__container_info{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.popup__title {
+    margin: 34px 0 50px 36px;
+    font-style: normal;
+    font-weight: 900;
+    font-size: 24px;
+  }
+  @media screen and (max-width: 555px) {
+    .popup__title {
+      font-size: 15px; /* При шрифте больше, не умещается в модальном окне "Редактировать профиль"*/
+      margin: 30px 20px 36px;
+    }
+  }
+  .popup {
+    position: fixed;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transition: 0.5s;
+    -o-transition: 0.5s;
+    transition: visibility 0.5s, opacity 0.5s linear;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    background-color: rgb(0, 0, 0, 0.5);
+  }
+  .popup_opened {
+    visibility: visible;
+    opacity: 1;
+    transition: visibility 0s, opacity 0.5s linear;
+  }
+  

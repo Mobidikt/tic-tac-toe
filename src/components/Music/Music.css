@@ -1,0 +1,16 @@
+.sound__play{
+    min-width: 150px;
+}
+.sound__button{
+    min-height: 48px;
+}
+.sound__down {
+    background-image: url(../../Images/volume-down.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.sound__up {
+    background-image: url(../../Images/volume-up.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+}

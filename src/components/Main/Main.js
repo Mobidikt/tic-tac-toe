@@ -48,7 +48,6 @@ const Cell = (props) => {
   return (
     <AppContext.Consumer>
       {(context) => {
-        console.log(context.playerIconOne);
         const value = context.cells[props.index];
         const icon =
           value !== null

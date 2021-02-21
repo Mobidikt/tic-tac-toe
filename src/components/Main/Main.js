@@ -56,6 +56,13 @@ const Cell = (props) => {
               : context.playerIconTwo
             : ICON_PLACE_HOLDDER;
         const isDoneClass = icon !== ICON_PLACE_HOLDDER ? 'done' : '';
+        console.log(context.playerColorTwo);
+        const isColorClass =
+          value !== null
+            ? value === 1
+              ? context.playerColorOne
+              : context.playerColorTwo
+            : '';
         const chess =
           context.colorBoard &&
           (props.index === 0) |
@@ -65,10 +72,9 @@ const Cell = (props) => {
             (props.index === 8)
             ? 'black-background'
             : null;
-        console.log(context.colorBoard);
         return (
           <button
-            className={`cell cell-${props.index} ${isDoneClass} ${chess}`}
+            className={`cell cell-${props.index} ${isDoneClass} ${isColorClass} ${chess}`}
             onClick={() => context.humanPlay(props.index)}
           >
             {icon}
@@ -158,51 +164,91 @@ class Main extends Component {
       <main className='main'>
         <Menu />
         <div className='settings'>
-          <Form>
-            <Form.Group controlId='exampleForm.SelectCustom'>
-              <Form.Label>Player 1</Form.Label>
-              <Form.Control
-                as='select'
-                custom
-                onClick={(e) => (this.context.playerIconOne = e.target.value)}
-              >
-                <option>Х</option>
-                <option>+</option>
-              </Form.Control>
-            </Form.Group>
-          </Form>
-          <Form>
-            <Form.Group controlId='exampleForm.SelectCustom'>
-              <Form.Label>Player 2</Form.Label>
-              <Form.Control
-                as='select'
-                custom
-                onClick={(e) => (this.context.playerIconTwo = e.target.value)}
-              >
-                <option>О</option>
-                <option>/\</option>
-              </Form.Control>
-            </Form.Group>
-          </Form>
+          <div className='setting__paleyr'>
+            Player 1
+            <Form>
+              <Form.Group controlId='exampleForm.SelectCustom'>
+                <Form.Label>Icon</Form.Label>
+                <Form.Control
+                  as='select'
+                  custom
+                  onClick={(e) => (this.context.playerIconOne = e.target.value)}
+                >
+                  <option>Х</option>
+                  <option>+</option>
+                </Form.Control>
+              </Form.Group>
+            </Form>
+            <Form>
+              <Form.Group controlId='exampleForm.SelectCustom'>
+                <Form.Label>Color</Form.Label>
+                <Form.Control
+                  as='select'
+                  custom
+                  onClick={(e) =>
+                    (this.context.playerColorOne = e.target.value)
+                  }
+                >
+                  <option>black</option>
+                  <option>green</option>
+                  <option>red</option>
+                </Form.Control>
+              </Form.Group>
+            </Form>
+          </div>
+          <div className='setting__paleyr'>
+            Player 2
+            <Form>
+              <Form.Group controlId='exampleForm.SelectCustom'>
+                <Form.Label>Icon</Form.Label>
+                <Form.Control
+                  as='select'
+                  custom
+                  onClick={(e) => (this.context.playerIconTwo = e.target.value)}
+                >
+                  <option>О</option>
+                  <option>/\</option>
+                </Form.Control>
+              </Form.Group>
+            </Form>
+            <Form>
+              <Form.Group controlId='exampleForm.SelectCustom'>
+                <Form.Label>Color</Form.Label>
+                <Form.Control
+                  as='select'
+                  custom
+                  onClick={(e) =>
+                    (this.context.playerColorTwo = e.target.value)
+                  }
+                >
+                  <option>black</option>
+                  <option>green</option>
+                  <option>red</option>
+                </Form.Control>
+              </Form.Group>
+            </Form>
+          </div>
+          <div className='setting__board'>
+            <Form>
+              <Form.Group controlId='exampleForm.SelectCustom'>
+                <Form.Label>
+                  Цветовая схема поля (необходимо начать новую игру)
+                </Form.Label>
+                <Form.Control
+                  as='select'
+                  custom
+                  onClick={(e) => {
+                    this.context.colorBoard =
+                      e.target.value === 'chess' ? true : false;
+                  }}
+                >
+                  <option>classic</option>
+                  <option>chess</option>
+                </Form.Control>
+              </Form.Group>
+            </Form>
+          </div>
         </div>
-        <Form>
-          <Form.Group controlId='exampleForm.SelectCustom'>
-            <Form.Label>
-              Измение цветовой схемы поля происходит только с началом новой игры
-            </Form.Label>
-            <Form.Control
-              as='select'
-              custom
-              onClick={(e) => {
-                this.context.colorBoard =
-                  e.target.value === 'chess' ? true : false;
-              }}
-            >
-              <option>classic</option>
-              <option>chess</option>
-            </Form.Control>
-          </Form.Group>
-        </Form>
         <div className='info'>{textInfo}</div>
         <Board />
       </main>

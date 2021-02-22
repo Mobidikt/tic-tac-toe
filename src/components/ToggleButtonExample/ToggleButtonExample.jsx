@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ButtonGroup, ToggleButton } from 'react-bootstrap';
-import { AppContext } from '../../AppProvider';
+import { AppContext } from '../../context/AppContext';
 import { GAME_TYPES } from '../../common';
 
 const GameType = (props) => {

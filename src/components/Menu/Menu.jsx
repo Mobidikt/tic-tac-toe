@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
-import { AppContext } from '../../AppProvider';
+import { AppContext } from '../../context/AppContext';
 import ToggleButtonExample from '../ToggleButtonExample/ToggleButtonExample';
 
 class Menu extends Component {

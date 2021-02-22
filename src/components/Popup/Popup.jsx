@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppContext } from '../../AppProvider';
+import { AppContext } from '../../context/AppContext';
 import './Popup.css';
 
 class InfoTooltip extends Component {

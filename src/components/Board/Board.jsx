@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { AppContext } from '../../AppProvider';
-
-const ICON_PLACE_HOLDDER = 'I';
+import { AppContext } from '../../context/AppContext';
+import { ICON_PLACE_HOLDDER } from '../../utils/constants';
 
 const Cell = (props) => {
   return (

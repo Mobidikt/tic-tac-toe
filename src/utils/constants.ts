@@ -8,4 +8,4 @@ export const WINNING_COMBINATIONS_3X3: number[][] = [
     [0, 4, 8],
     [2, 4, 6],
   ];
-  
+export const ICON_PLACE_HOLDDER: string = 'I';

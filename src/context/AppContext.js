@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import {
   GAME_TYPES,
   PLAYER_TURNS,
-  checkGameState,
+  // checkGameState,
   getRandom,
   replace,
   findBestMove,
   findRandomMove,
-} from './common';
+} from '../common';
+import { checkGameState } from '../utils/CheckGameState';
 
 const THINKING_TIME = 500;
 

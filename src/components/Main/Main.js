@@ -1,5 +1,11 @@
-import React, { Component } from 'react';
-import { Button, Form, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
+import React, { Component, useState } from 'react';
+import {
+  Button,
+  Form,
+  ToggleButton,
+  ButtonGroup,
+  ToggleButtonGroup,
+} from 'react-bootstrap';
 import { AppContext } from '../../AppProvider';
 import { GAME_TYPES, PLAYER_TURNS } from '../../common';
 import Music from '../Music/Music';
@@ -13,10 +19,7 @@ const GameType = (props) => {
   return (
     <AppContext.Consumer>
       {(context) => (
-        <p
-          onClick={() => context.changeType(value)}
-          className={value === context.gameType ? 'active' : ''}
-        >
+        <p onClick={() => context.changeType(value)} className='game-type'>
           {name}
         </p>
       )}
@@ -24,9 +27,41 @@ const GameType = (props) => {
   );
 };
 
+function ToggleButtonExample() {
+  const stay = JSON.parse(localStorage.getItem('stay'));
+  const [radioValue, setRadioValue] = useState(String(1 + stay.gameType));
+  const radios = [
+    { name: '2 Players', value: '1', type: GAME_TYPES.TWO_PLAYERS },
+    {
+      name: 'Play with computer',
+      value: '2',
+      type: GAME_TYPES.VERSUS_COMPUTER,
+    },
+  ];
+
+  return (
+    <ButtonGroup toggle>
+      {radios.map((radio, idx) => (
+        <ToggleButton
+          key={idx}
+          type='radio'
+          variant='primary'
+          name='radio'
+          className='btn_radio'
+          value={radio.value}
+          checked={radioValue === radio.value}
+          onChange={(e) => setRadioValue(e.currentTarget.value)}
+        >
+          <GameType value={radio.type} name={radio.name} />
+        </ToggleButton>
+      ))}
+    </ButtonGroup>
+  );
+}
+
 class Menu extends Component {
   render() {
-    const computer = localStorage.getItem('Computer');
+    const computer = +localStorage.getItem('Computer');
     const playerVSComputer = +localStorage.getItem('PlayerVSComputer');
     const playerOne = +localStorage.getItem('Player1');
     const playerTwo = +localStorage.getItem('Player2');
@@ -54,17 +89,7 @@ class Menu extends Component {
         </div>
         <div className='game-menu'>
           <h2>Game menu</h2>
-          <ToggleButtonGroup type='radio' name='options' defaultValue={1}>
-            <ToggleButton value={1} className='btn_radio'>
-              <GameType value={GAME_TYPES.TWO_PLAYERS} name='2 Players' />
-            </ToggleButton>
-            <ToggleButton value={2} className='btn_radio'>
-              <GameType
-                value={GAME_TYPES.VERSUS_COMPUTER}
-                name='Play with computer'
-              />
-            </ToggleButton>
-          </ToggleButtonGroup>
+          <ToggleButtonExample />
           <Button
             variant='warning'
             className='btn_new-menu'
@@ -173,14 +198,17 @@ class Main extends Component {
     let textInfo = '';
     let message = '';
     const currentIconType = this.context.currentIcon;
-
     if (startBoard !== this.context.colorBoard) {
       message = 'изменения вступят только после начала новой игры';
     } else message = '';
 
     if (this.context.gameState.isTie) {
       textInfo = 'Tie!';
-      localStorage.setItem('Tie', tie + 1);
+      if (!this.context.gameOwer) {
+        localStorage.setItem('Tie', tie + 1);
+        this.context.gameOwer = true;
+      } else {
+      }
     } else {
       if (this.context.gameType === GAME_TYPES.TWO_PLAYERS) {
         if (this.context.gameState.position === '') {
@@ -188,8 +216,18 @@ class Main extends Component {
         } else {
           textInfo = `Player${currentIconType === 0 ? ' 1' : ' 2'} wins!`;
           if (currentIconType === 0) {
-            localStorage.setItem(`Player1`, playerOne + 1);
-          } else localStorage.setItem(`Player2`, playerTwo + 1);
+            if (!this.context.gameOwer) {
+              localStorage.setItem(`Player1`, playerOne + 1);
+              this.context.gameOwer = true;
+            } else {
+            }
+          } else {
+            if (!this.context.gameOwer) {
+              localStorage.setItem(`Player2`, playerTwo + 1);
+              this.context.gameOwer = true;
+            } else {
+            }
+          }
         }
       } else {
         if (this.context.gameState.position === '') {
@@ -199,10 +237,18 @@ class Main extends Component {
         } else {
           if (this.context.playerTurn === PLAYER_TURNS.HUMAN) {
             textInfo = `Computer win!`;
-            localStorage.setItem('Computer', computer + 1);
+            if (!this.context.gameOwer) {
+              localStorage.setItem('Computer', computer + 1);
+              this.context.gameOwer = true;
+            } else {
+            }
           } else {
             textInfo = `You win!`;
-            localStorage.setItem('PlayerVSComputer', playerVSComputer + 1);
+            if (!this.context.gameOwer) {
+              localStorage.setItem('PlayerVSComputer', playerVSComputer + 1);
+              this.context.gameOwer = true;
+            } else {
+            }
           }
         }
       }

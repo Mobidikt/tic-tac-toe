@@ -205,7 +205,11 @@
 .btn_new-menu{
   margin: 10px;
 }
+.game-type{
+  margin: 0;
+}
 .btn_radio{
+  padding: 0;
   min-width: 160px;
 }
 .statistics{

@@ -24,6 +24,7 @@ export default class AppProvider extends Component {
     playerColorTwo: 'black',
     colorBoard: false,
     textPopup: '',
+    gameOwer: false,
     openPopup: false,
     cells: new Array(9).fill(null),
     gameState: {
@@ -37,13 +38,14 @@ export default class AppProvider extends Component {
     gameType: this.initState.gameType,
     currentIcon: this.initState.currentIcon,
     playerTurn: this.initState.playerTurn,
-    playerIconOne: 'X',
+    playerIconOne: this.initState.playerIconOne,
     playerColorOne: this.initState.playerColorOne,
-    playerIconTwo: 'O',
+    playerIconTwo: this.initState.playerIconTwo,
     playerColorTwo: this.initState.playerColorTwo,
     colorBoard: this.initState.colorBoard,
     textPopup: '',
     openPopup: false,
+    gameOwer: this.initState.gameOwer,
     cells: this.initState.cells,
     gameState: this.initState.gameState,
 
@@ -60,6 +62,7 @@ export default class AppProvider extends Component {
     },
   };
   initGame = () => {
+    localStorage.setItem('stay', JSON.stringify(this.state));
     if (
       this.state.gameType === GAME_TYPES.VERSUS_COMPUTER &&
       this.state.playerTurn === PLAYER_TURNS.COMPUTER
@@ -73,6 +76,30 @@ export default class AppProvider extends Component {
         this.computerPlay(randomMove);
       }, THINKING_TIME);
     }
+  };
+  initLastGame = (state) => {
+    this.setState(
+      () => {
+        return {
+          gameType: state.gameType,
+          currentIcon: state.currentIcon,
+          playerTurn: state.playerTurn,
+          playerIconOne: state.playerIconOne,
+          playerColorOne: state.playerColorOne,
+          playerIconTwo: state.playerIconTwo,
+          playerColorTwo: state.playerColorTwo,
+          colorBoard: state.colorBoard,
+          textPopup: '',
+          openPopup: false,
+          gameOwer: state.gameOwer,
+          cells: state.cells,
+          gameState: state.gameState,
+        };
+      },
+      () => {
+        this.initGame();
+      },
+    );
   };
 
   initNewGame = (type = this.initState.gameType) => {
@@ -89,6 +116,7 @@ export default class AppProvider extends Component {
           colorBoard: this.state.colorBoard,
           textPopup: '',
           openPopup: false,
+          gameOwer: false,
           cells: this.initState.cells,
           gameState: this.initState.gameState,
         };
@@ -98,7 +126,6 @@ export default class AppProvider extends Component {
       },
     );
   };
-
   applyState = (prevState, index) => {
     const cells = prevState.cells;
     const nextIcon = 1 - prevState.currentIcon;
@@ -126,7 +153,6 @@ export default class AppProvider extends Component {
           return this.applyState(prevState, index);
         },
         () => {
-          // Make a move for computer if the game is in 'versus computer' mode
           if (
             this.state.gameState.position === '' &&
             this.state.gameType === GAME_TYPES.VERSUS_COMPUTER &&
@@ -135,10 +161,11 @@ export default class AppProvider extends Component {
             setTimeout(() => {
               this.makeAIMove();
             }, THINKING_TIME);
-          }
+          } else localStorage.setItem('stay', JSON.stringify(this.state));
         },
       );
-    }
+      localStorage.setItem('stay', JSON.stringify(this.state));
+    } else localStorage.setItem('stay', JSON.stringify(this.state));
   };
 
   computerPlay = (index) => {
@@ -150,6 +177,7 @@ export default class AppProvider extends Component {
     ) {
       this.setState((prevState) => this.applyState(prevState, index));
     }
+    localStorage.setItem('stay', JSON.stringify(this.state));
   };
 
   makeAIMove = () => {
@@ -161,7 +189,10 @@ export default class AppProvider extends Component {
   };
 
   componentDidMount() {
-    this.initGame();
+    const stay = JSON.parse(localStorage.getItem('stay'));
+    if (stay) {
+      this.initLastGame(stay);
+    } else this.initGame();
   }
 
   render() {

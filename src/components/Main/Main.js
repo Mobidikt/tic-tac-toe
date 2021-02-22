@@ -1,63 +1,59 @@
 import React, { Component, useState } from 'react';
-import {
-  Button,
-  Form,
-  ToggleButton,
-  ButtonGroup,
-  ToggleButtonGroup,
-} from 'react-bootstrap';
+import { Button, Form, ToggleButton, ButtonGroup } from 'react-bootstrap';
 import { AppContext } from '../../AppProvider';
 import { GAME_TYPES, PLAYER_TURNS } from '../../common';
+import Board from '../Board/Board';
 import Music from '../Music/Music';
+import ToggleButtonExample from '../ToggleButtonExample/ToggleButtonExample';
 import './Main.css';
 
-const ICON_PLACE_HOLDDER = 'I';
+// const ICON_PLACE_HOLDDER = 'I';
 
-const GameType = (props) => {
-  const { value, name } = props;
+// const GameType = (props) => {
+//   const { value, name } = props;
 
-  return (
-    <AppContext.Consumer>
-      {(context) => (
-        <p onClick={() => context.changeType(value)} className='game-type'>
-          {name}
-        </p>
-      )}
-    </AppContext.Consumer>
-  );
-};
+//   return (
+//     <AppContext.Consumer>
+//       {(context) => (
+//         <p onClick={() => context.changeType(value)} className='game-type'>
+//           {name}
+//         </p>
+//       )}
+//     </AppContext.Consumer>
+//   );
+// };
 
-function ToggleButtonExample() {
-  const stay = JSON.parse(localStorage.getItem('stay'));
-  const [radioValue, setRadioValue] = useState(String(1 + stay.gameType));
-  const radios = [
-    { name: '2 Players', value: '1', type: GAME_TYPES.TWO_PLAYERS },
-    {
-      name: 'Play with computer',
-      value: '2',
-      type: GAME_TYPES.VERSUS_COMPUTER,
-    },
-  ];
+// function ToggleButtonExample() {
+//   const stay = JSON.parse(localStorage.getItem('stay'));
+//   const [radioValue, setRadioValue] = useState(String(1 + stay.gameType));
+//   const radios = [
+//     { name: '2 Players', value: '1', type: GAME_TYPES.TWO_PLAYERS },
+//     {
+//       name: 'Play with computer',
+//       value: '2',
+//       type: GAME_TYPES.VERSUS_COMPUTER,
+//     },
+//   ];
 
-  return (
-    <ButtonGroup toggle>
-      {radios.map((radio, idx) => (
-        <ToggleButton
-          key={idx}
-          type='radio'
-          variant='primary'
-          name='radio'
-          className='btn_radio'
-          value={radio.value}
-          checked={radioValue === radio.value}
-          onChange={(e) => setRadioValue(e.currentTarget.value)}
-        >
-          <GameType value={radio.type} name={radio.name} />
-        </ToggleButton>
-      ))}
-    </ButtonGroup>
-  );
-}
+//   return (
+//     <ButtonGroup toggle>
+//       {radios.map((radio, idx) => (
+//         <ToggleButton
+//           key={idx}
+//           type='radio'
+//           variant='primary'
+//           name='radio'
+//           className='btn_radio'
+//           value={radio.value}
+//           checked={radioValue === radio.value}
+//           onChange={(e) => setRadioValue(e.currentTarget.value)}
+//         >
+//           <GameType value={radio.type} name={radio.name} />
+//         </ToggleButton>
+//       ))}
+//     </ButtonGroup>
+//   );
+// }
 
 class Menu extends Component {
   render() {
@@ -105,87 +101,87 @@ class Menu extends Component {
 
 Menu.contextType = AppContext;
 
-const Cell = (props) => {
-  return (
-    <AppContext.Consumer>
-      {(context) => {
-        const value = context.cells[props.index];
-        const icon =
-          value !== null
-            ? value === 1
-              ? context.playerIconOne
-              : context.playerIconTwo
-            : ICON_PLACE_HOLDDER;
-        const isDoneClass = icon !== ICON_PLACE_HOLDDER ? 'done' : '';
-        const isColorClass =
-          value !== null
-            ? value === 1
-              ? context.playerColorOne
-              : context.playerColorTwo
-            : '';
-        const chess =
-          context.colorBoard &&
-          (props.index === 0) |
-            (props.index === 2) |
-            (props.index === 4) |
-            (props.index === 6) |
-            (props.index === 8)
-            ? 'black-background'
-            : null;
-        return (
-          <button
-            className={`cell cell-${props.index} ${isDoneClass} ${isColorClass} ${chess}`}
-            onClick={() => context.humanPlay(props.index)}
-          >
-            {icon}
-          </button>
-        );
-      }}
-    </AppContext.Consumer>
-  );
-};
+// const Cell = (props) => {
+//   return (
+//     <AppContext.Consumer>
+//       {(context) => {
+//         const value = context.cells[props.index];
+//         const icon =
+//           value !== null
+//             ? value === 1
+//               ? context.playerIconOne
+//               : context.playerIconTwo
+//             : ICON_PLACE_HOLDDER;
+//         const isDoneClass = icon !== ICON_PLACE_HOLDDER ? 'done' : '';
+//         const isColorClass =
+//           value !== null
+//             ? value === 1
+//               ? context.playerColorOne
+//               : context.playerColorTwo
+//             : '';
+//         const chess =
+//           context.colorBoard &&
+//           (props.index === 0) |
+//             (props.index === 2) |
+//             (props.index === 4) |
+//             (props.index === 6) |
+//             (props.index === 8)
+//             ? 'black-background'
+//             : null;
+//         return (
+//           <button
+//             className={`cell cell-${props.index} ${isDoneClass} ${isColorClass} ${chess}`}
+//             onClick={() => context.humanPlay(props.index)}
+//           >
+//             {icon}
+//           </button>
+//         );
+//       }}
+//     </AppContext.Consumer>
+//   );
+// };
 
-class Board extends Component {
-  constructor(props) {
-    super(props);
-    this.boardRef = React.createRef();
-  }
+// class Board extends Component {
+//   constructor(props) {
+//     super(props);
+//     this.boardRef = React.createRef();
+//   }
 
-  componentDidUpdate() {
-    if (this.context.gameState.position !== '') {
-      setTimeout(() => {
-        this.boardRef.current.classList.add('full');
-      }, 50);
-    } else {
-      this.boardRef.current.classList.remove('full');
-    }
-  }
-  render() {
-    return (
-      <div
-        className={`board ${this.context.gameState.position}`}
-        ref={this.boardRef}
-      >
-        <div className='board-row'>
-          <Cell index={0} />
-          <Cell index={1} />
-          <Cell index={2} />
-        </div>
-        <div className='board-row'>
-          <Cell index={3} />
-          <Cell index={4} />
-          <Cell index={5} />
-        </div>
-        <div className='board-row'>
-          <Cell index={6} />
-          <Cell index={7} />
-          <Cell index={8} />
-        </div>
-      </div>
-    );
-  }
-}
-Board.contextType = AppContext;
+//   componentDidUpdate() {
+//     if (this.context.gameState.position !== '') {
+//       setTimeout(() => {
+//         this.boardRef.current.classList.add('full');
+//       }, 50);
+//     } else {
+//       this.boardRef.current.classList.remove('full');
+//     }
+//   }
+//   render() {
+//     return (
+//       <div
+//         className={`board ${this.context.gameState.position}`}
+//         ref={this.boardRef}
+//       >
+//         <div className='board-row'>
+//           <Cell index={0} />
+//           <Cell index={1} />
+//           <Cell index={2} />
+//         </div>
+//         <div className='board-row'>
+//           <Cell index={3} />
+//           <Cell index={4} />
+//           <Cell index={5} />
+//         </div>
+//         <div className='board-row'>
+//           <Cell index={6} />
+//           <Cell index={7} />
+//           <Cell index={8} />
+//         </div>
+//       </div>
+//     );
+//   }
+// }
+// Board.contextType = AppContext;
 
 class Main extends Component {
   render() {

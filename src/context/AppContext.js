@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
-import { getRandom, replace, findBestMove, findRandomMove } from '../common';
 import { checkGameState } from '../utils/CheckGameState';
-import { GAME_TYPES, PLAYER_TURNS } from '../utils/constants';
-
-const THINKING_TIME = 500;
+import {
+  findBestMove,
+  findRandomMove,
+  getRandom,
+  replace,
+} from '../utils/computerPlayer';
+import { GAME_TYPES, PLAYER_TURNS, THINKING_TIME } from '../utils/constants';
 
 export const AppContext = React.createContext();
 

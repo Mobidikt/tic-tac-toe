@@ -1,4 +1,4 @@
-import { getEmptyCells } from './utils/getEmptyCells';
+import { getEmptyCells } from './getEmptyCells';
 
 const isMoveLeft = (cells) => {
   const emptyCells = getEmptyCells(cells);

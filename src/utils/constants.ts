@@ -24,3 +24,5 @@ export const PLAYER_TURNS = {
   HUMAN: 0,
   COMPUTER: 1,
 };
+
+export const THINKING_TIME:number = 500;

@@ -1,14 +1,7 @@
 import React, { Component } from 'react';
-import {
-  GAME_TYPES,
-  PLAYER_TURNS,
-  // checkGameState,
-  getRandom,
-  replace,
-  findBestMove,
-  findRandomMove,
-} from '../common';
+import { getRandom, replace, findBestMove, findRandomMove } from '../common';
 import { checkGameState } from '../utils/CheckGameState';
+import { GAME_TYPES, PLAYER_TURNS } from '../utils/constants';
 
 const THINKING_TIME = 500;
 

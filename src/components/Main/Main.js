@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Form } from 'react-bootstrap';
 import { AppContext } from '../../context/AppContext';
-import { GAME_TYPES, PLAYER_TURNS } from '../../common';
+import { GAME_TYPES, PLAYER_TURNS } from '../../utils/constants';
 import Board from '../Board/Board';
 import Menu from '../Menu/Menu';
 import Music from '../Music/Music';

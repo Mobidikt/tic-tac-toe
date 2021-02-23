@@ -227,6 +227,12 @@
   display: flex;
   flex-wrap: wrap;
 }
+@media (max-width: 470px) {
+  .statistics__wrapper{
+    flex-direction: column;
+    align-items: center;
+  }
+}
 .statistics__type{
   margin-right: 20px;
   min-width: 200px;

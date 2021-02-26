@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { AppContext } from '../../context/AppContext';
 import { ICON_PLACE_HOLDDER } from '../../utils/constants';
 import { PropsCell } from './TypeBoard';
+import './Board.css'
 
 const Cell = (props :PropsCell) => {
   return (

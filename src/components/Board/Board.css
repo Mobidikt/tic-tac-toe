@@ -173,3 +173,11 @@
 .board>.board-row>.cell.cell-8 {
   border-right: none;
 }
+@media (max-width: 1400px) {
+  .board>.board-row>.cell {
+  padding-top: calc(100% / 6 - 1.7rem);
+  padding-bottom: calc(100% / 6 - 1.7rem);
+  font-size: 3rem;
+  line-height: 3.3rem;
+}
+}

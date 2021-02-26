@@ -10,12 +10,6 @@
   margin-bottom: 10px;
   font-size: 1.5rem;
 }
-
-/* Draw winning line*/
-
-
-
-
 .game-type{
   margin: 0;
 }
@@ -23,7 +17,6 @@
   padding: 0;
   min-width: 160px;
 }
-
 .settings{
   display: flex;
   flex-direction: column;
@@ -64,14 +57,7 @@
   .main>.info {
     font-size: 1.2rem;
   }
-  .main>.board>.board-row>.cell {
-    padding-top: calc(100% / 6 - 1.7rem);
-    padding-bottom: calc(100% / 6 - 1.7rem);
-    font-size: 3rem;
-    line-height: 3.3rem;
-  }
 }
-
 @media (max-width: 575px) {
   .main {
     padding: 0px 5px;

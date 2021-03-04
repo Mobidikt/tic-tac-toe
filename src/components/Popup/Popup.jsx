@@ -30,7 +30,6 @@ class InfoTooltip extends Component {
             onClick={() => {
               this.context.openPopup = false;
               this.open = false;
-              console.log(this.context.openPopup);
             }}
           />
         </div>

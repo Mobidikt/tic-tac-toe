@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { AppContext } from '../../context/AppContext';
 import { ICON_PLACE_HOLDDER } from '../../utils/constants';
+import { PropsCell } from './TypeBoard';
+import './Board.css'
 
-const Cell = (props) => {
+const Cell = (props :PropsCell) => {
   return (
     <AppContext.Consumer>
       {(context) => {
@@ -21,12 +23,13 @@ const Cell = (props) => {
               : context.playerColorTwo
             : '';
         const chess =
-          context.colorBoard &&
-          (props.index === 0) |
-            (props.index === 2) |
-            (props.index === 4) |
-            (props.index === 6) |
-            (props.index === 8)
+          context.colorBoard &&(
+            (props.index === 0) ||
+              (props.index === 2) ||
+              (props.index === 4) ||
+              (props.index === 6) ||
+              (props.index === 8)
+          )
             ? 'black-background'
             : null;
         return (
@@ -42,8 +45,10 @@ const Cell = (props) => {
   );
 };
 
+
 class Board extends Component {
-  constructor(props) {
+  private boardRef: any
+  constructor(props:any) {
     super(props);
     this.boardRef = React.createRef();
   }

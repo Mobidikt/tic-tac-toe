@@ -18,8 +18,8 @@ const GameType = (props) => {
 };
 
 function ToggleButtonExample() {
-  const stay = JSON.parse(localStorage.getItem('stay'));
-  const [radioValue, setRadioValue] = useState(String(1 + stay.gameType));
+  const state = JSON.parse(localStorage.getItem('stay')) || 0;
+  const [radioValue, setRadioValue] = useState(String(1 + state.gameType));
   const radios = [
     { name: '2 Players', value: '1', type: GAME_TYPES.TWO_PLAYERS },
     {

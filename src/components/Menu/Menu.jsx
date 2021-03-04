@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 import { AppContext } from '../../context/AppContext';
 import ToggleButtonExample from '../ToggleButtonExample/ToggleButtonExample';
+import './Menu.css';
 
 class Menu extends Component {
   render() {
